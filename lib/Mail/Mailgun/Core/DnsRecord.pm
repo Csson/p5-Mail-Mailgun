@@ -16,28 +16,38 @@ class Mail::Mailgun::Core::DnsRecord
     has priority => (
         is => 'ro',
         isa => NonNegativeInt,
-        required => 1,
         documentation_default => 'hello',
+        traits => ['Repose'],
         printable_asis => 1,
     );
     has record_type => (
         is => 'ro',
-        isa => Enum[qw/MX CNAME TEXT/],
-        required => 1,
+        isa => Enum[qw/MX CNAME TXT/],
+        traits => ['Repose'],
         printable_asis => 1,
     );
     has valid => (
         is => 'ro',
-        isa => Bool->plus_coercions(Str, sub { $_ eq 'valid' ? 1 : 0 }),
-        required => 1,
+        isa => Enum[qw/valid invalid unknown/],
+        traits => ['Repose'],
         printable_asis => 1,
     );
     has value => (
         is => 'ro',
         isa => Str,
-        required => 1,
+        traits => ['Repose'],
         printable_asis => 1,
     );
+    has name => (
+        is => 'ro',
+        isa => Str,
+        traits => ['Repose'],
+        printable_asis => 1,
+    );
+    
+    method isvalid(--> Bool but assumed) {
+        return $self->valid eq 'valid' ? 1 : 0;
+    }
 }
 
 1;

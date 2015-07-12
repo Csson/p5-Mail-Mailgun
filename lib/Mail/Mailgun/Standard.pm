@@ -27,7 +27,7 @@ package #
         my %opts = @_;
 
         push @{ $opts{'imports'} ||= [] } => (
-            'List::AllUtils'    => [qw/any none sum uniq/],
+            'List::AllUtils'    => [qw/any none sum uniq pairmap/],
             'MooseX::AttributeDocumented' => [],
             'Path::Tiny' => ['path'],
             'Rest::Repose::Mopes::ApplyReposeAttributeTrait' => [],

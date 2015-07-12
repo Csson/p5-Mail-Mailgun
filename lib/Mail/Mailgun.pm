@@ -16,9 +16,14 @@ class Mail::Mailgun {
 
    # use Mail::Mailgun::Core::HttpResponse;
 
-  #  use Mail::Mailgun::Rest::Domain;
+    use Mail::Mailgun::Core::DnsRecord;
     use Mail::Mailgun::Rest::Message;
     use Mail::Mailgun::Rest::Message::SendOptions;
+    use Mail::Mailgun::Rest::Domain;
+    use Mail::Mailgun::Rest::DomainCredential;
+    use Mail::Mailgun::Rest::DomainConnection;
+    use Mail::Mailgun::Rest::Stats;
+    use Mail::Mailgun::Rest::Event;
 
 
     has config => (
@@ -56,7 +61,7 @@ class Mail::Mailgun {
         is => 'ro',
         isa => Str,
         lazy => 1,
-        default => sub { 'api.mailgun.net/v2' },
+        default => sub { 'api.mailgun.net/v3' },
     );
     has base_url => (
         is => 'ro',
@@ -90,8 +95,47 @@ class Mail::Mailgun {
     method domain_add(DomainAddRequest $request does coerce --> DomainAddResponse but assumed) {
         return $request->make_request;
     }
+    method domain_delete(DomainDeleteRequest $request does coerce --> DomainDeleteResponse but assumed) {
+        return $request->make_request;
+    }
+    method domain_list(DomainListRequest $request does coerce --> DomainListResponse but assumed) {
+        return $request->make_request;
+    }
 
-    around message_send
+    method domain_credential_list(DomainCredentialListRequest $request does coerce --> DomainCredentialListResponse but assumed) {
+        return $request->make_request;
+    }
+    method domain_credential_add(DomainCredentialAddRequest $request does coerce --> DomainCredentialAddResponse but assumed) {
+        return $request->make_request;
+    }
+    method domain_credential_update(DomainCredentialUpdateRequest $request does coerce --> DomainCredentialUpdateResponse but assumed) {
+        return $request->make_request;
+    }
+    method domain_credential_delete(DomainCredentialDeleteRequest $request does coerce --> DomainCredentialDeleteResponse but assumed) {
+        return $request->make_request;
+    }
+
+    method domain_connection_get(DomainConnectionGetRequest $request does coerce --> DomainConnectionGetResponse but assumed) {
+        return $request->make_request;
+    }
+    method domain_connection_update(DomainConnectionUpdateRequest $request does coerce --> DomainConnectionUpdateResponse but assumed) {
+        return $request->make_request;
+    }
+
+    method stats_get(StatsGetRequest $request does coerce --> StatsGetResponse but assumed) {
+        return $request->make_request;
+    }
+
+    method events_get(EventGetRequest $request does coerce --> EventGetResponse but assumed) {
+        return $request->make_request;
+    }
+
+    around message_send,
+           domain_list, domain_add, domain_delete,
+           domain_credential_list, domain_credential_add, domain_credential_update, domain_credential_delete,
+           domain_connection_get, domain_connection_update,
+           stats_get,
+           events_get
            ($next: $self, HashRef $data does slurpy) {
         
         $data->{'mailgun'} //= $self;

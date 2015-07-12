@@ -18,6 +18,10 @@ use warnings;
         predicate => 1,
         coerce => 1,
     );
+#    prop created_at => (
+#        isa => TimeMoment,
+#        coerce => 1,
+#    );
     has smtp_login => (
         is => 'ro',
         isa => EmailAddress,
@@ -61,12 +65,28 @@ use warnings;
         printable_asis => 1,
         predicate => 1,
     );
+    has require_tls => (
+        is => 'ro',
+        isa => Bool,
+        default => 0,
+    );
+    has type => (
+        is => 'ro',
+        isa => Str,
+    );
+    has skip_verification => (
+        is => 'ro',
+        isa => Bool,
+    );
+    
+    
+    
 
-    method hashify_created_at(--> TimestampRFC2822 but assumed) {
+    method created_at_printable(--> TimestampRFC2822 but assumed) {
         return TimestampRFC2822->coerce($self->created_at);
     }
 
-    method hashify_wildcard(--> Str but assumed) {
+    method wildcard_printable(--> Str but assumed) {
         return $self->wildcard.'';
     }
 

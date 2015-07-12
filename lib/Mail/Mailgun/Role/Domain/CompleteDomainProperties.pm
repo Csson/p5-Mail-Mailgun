@@ -4,10 +4,9 @@ use warnings;
 
 # PODCLASSNAME
 
- role Mail::Mailgun::Role::Domain::CompleteDomainProperties {
+ role Mail::Mailgun::Role::Domain::CompleteDomainProperties with Mail::Mailgun::Role::Domain::DomainProperties {
 
-    with 'Mail::Mailgun::Role::Domain::DomainProperties',
-         'Rest::Repose::Mopes::ReposeAttributeTrait',
+    with 'Rest::Repose::Mopes::ReposeAttributeTrait',
          'Rest::Repose::Role::Printable';
 
     # VERSION:
@@ -37,11 +36,11 @@ use warnings;
         }
     );
 
-    method hashify_receiving_dns_records(--> DnsRecords but assumed) {
-        return [ map { $_->to_hash } $self->all_receiving_dns_records ];
+    method receiving_dns_records_printable(--> DnsRecords but assumed) {
+        return [ map { $_->_printable } $self->all_receiving_dns_records ];
     }
-    method hashify_sending_dns_records(--> DnsRecords but assumed) {
-        return [ map { $_->to_hash } $self->all_sending_dns_records ];
+    method sending_dns_records_printable(--> DnsRecords but assumed) {
+        return [ map { $_->_printable } $self->all_sending_dns_records ];
     }
 }
 
